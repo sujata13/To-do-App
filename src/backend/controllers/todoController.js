@@ -1,7 +1,6 @@
 const dbConn = require("../databases/sqlite.js");
 const List= dbConn.Lists;
-const Users= dbConn.Users;
-const Sequelize= require("sequelize");
+
 module.exports={
     add: add,
     displayList: display,
@@ -13,7 +12,7 @@ function add(req,res){
     const task = req.body.item;
     if(!task){
         return res.render("profile",{
-            msg:"You haven't enter any ToDo!! Please Enter any ToDo first."
+            msg:"Please enter a task"
         });
     }
     else{
@@ -25,13 +24,15 @@ function add(req,res){
             done: "no"
         })
         .then(list=>{
+            console.log("list found");
+            console.log("list",list);
             if(list){
                 res.redirect("/");
             }
         })
         .catch(err=>{
-            console.log("Error Found!! To Do can not be added.");
-            console.log(err);
+            console.log("task not added");
+            console.log("err",err);
             res.redirect("/");
         })
     }
@@ -39,23 +40,26 @@ function add(req,res){
 
 
 function display(req, res){
+    console.log("executing display function")
     if(req.session.user_id){
+        console.log("session data is ",req.session)
         List.findAll({
             where:{
                 user_id: req.session.user_id
             },
-            raw: true
         })
         .then(items=>{
-            res.render("profile",{username: req.session.name, items: items});
+            console.log("found list items",items)
+            res.render("profile",{username: req.session.name, items:items?items:[]});
         })
         .catch(err=>{
-            console.log(err);
+            console.log("err",err);
             res.redirect("/signin");
         })
     }
     else{
-        res.redirect("/signin");
+        console.log("seesion not found redirect to signin")
+        res.redirect("/signin")
     }
 }
 
@@ -68,17 +72,15 @@ function edit(req, res){
         }
     })
     .then(items=>{
-        console.log(items);
+        console.log("items",items);
         items.item=newItem;
-        items.edit=true;
-        items.save();
+        // items.edit=true;
         res.redirect("/");
     })
     .catch(err=>{
-        console.log(err);
+        console.log("err",err);
         res.redirect("/");
     })
-    
 }
 
 function deleteTask(req, res){
@@ -89,12 +91,11 @@ function deleteTask(req, res){
         }
     })
     .then(()=>{
-        console.log("deleted successfully");
+        console.log("deleted");
         res.redirect("/");
     })
     .catch(err=>{
-        console.log(err);
+        console.log("err",err);
         res.redirect("/");
     })
-    
 }

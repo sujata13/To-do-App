@@ -1,61 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
-    <link rel="stylesheet" href="./stylesheet2.css">
+    <title>profile</title>
 </head>
+
 <body>
-    <div class="backgrounddiv">
-        <div class="profilediv">
-    <h1>Make your own ToDO list</h1>
+
+    <h1>Profile</h1>
     <% if(locals.username) {%> 
-            <h2>Well Come <%= username %> Into To Do List</h2>
+            <h2>Hello <%= username %></h2>
     <% } %>
+
+
+    <h2>To-do List</h2>
     <ul>
         <% for(var i=0; i<items.length ; i++) { %>
         <li id="task<%= i %>">
             <%= items[i].item %>
             <div id="buttons<%= i %>">
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <button class="edit" onclick=openEdit(<%= i %>)> .EDIT. </button>
+                <button onclick=openEdit <%= i %>)>edit</button>
                 <form action="/delete" method="POST">
-                    <input type="text" name="taskId" value="<%= items[i].id %>" style="display: none;">
-                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    <button class="delete"> ..DEL.</button>
+                    <input type="text" name="taskId" value="<%= items[i].id %>" style="display: none">
+                    <button>delete</button>
                 </form>
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <button class="done" onclick=doneTask(<%= i %>)>DONE</button>
+                <button onclick=doneTask <%= i %>)>done</button>
             </div>
-            <div id="edit<%=i %>" style="display: none;">
+            <div id="edit<%=i %>" style="display: none">
                 <form action="/edit" method="POST">
                     <input type="text" name="taskId" value="<%= items[i].id %>" style="display: none;">
-                    <input type="text" name="editedTask" placeholder="Edit Your ToDo here!">
+                    <input type="text" name="editedTask" placeholder="Enter the modified task">
                     <button type="submit">Submit</button>
                 </form>
             </div>
         </li>
         <% } %>
     </ul>
-    
+
     <form action="/add" method="POST">
-        <input type="text" name="item" placeholder="Enter ToDo Here!">
-        <button type="submit">Add Item</button> 
+        <input type="text" name="item" placeholder="Enter task">
+        <button type="submit">Add Item</button>
     </form>
-    <br/><br/><br/>
-    <button onclick="location.href='/signup'">LOGOUT</button>
-    <script>
-        function openEdit(num){
-            document.getElementById(('edit'+num)).style.display = 'block';
-            document.getElementById('buttons'+num).style.display = 'none';    
-        }
 
-        function doneTask(num){
-            var task=document.getElementById('task'+num);
-        }
-
-    </script>
-    </div>
-    </div>
+    <button onclick="location.href='/logout'">LOGOUT</button>
 </body>
 </html>
