@@ -1,53 +1,65 @@
-const sq = require("sequelize");
+const Sequelize = require("sequelize");
 
-const db = new sq({
+const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "./backend/databases/database.sqlite"
+  // storage: "./src/backend/databases/database.sqlite"
+  storage: __dirname + "/database.sqlite",
 });
 
-const lists = db.define("lists", {
-  item: {
-    type: sq.STRING,
-    allowNull: false
-  },
-  edit: {
-    type: sq.BOOLEAN,
-    defaultValue: false
-  },
-  done: {
-    type: sq.STRING,
-    defaultValue: "alert-dark"
-  },
-  email: {
-    type: sq.STRING
-  }
-});
-
-const users = db.define("users", {
+const users = sequelize.define("users", {
   name: {
-    type: sq.STRING,
-    allowNull: false
+    type: Sequelize.STRING,
+    allowNull: false,
   },
   email: {
-    type: sq.STRING,
+    type: Sequelize.STRING,
+    unique: true,
     allowNull: false,
-    unique: true
   },
   password: {
-    type: sq.STRING,
-    allowNull: false
-  }
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 });
 
-db.sync()
-  .then(() => {
-    console.log("Database Synced");
-  })
-  .catch(err => {
-    console.log("Error Occured: " + err);
-  });
+const lists = sequelize.define("lists", {
+  user_id: {
+    type: Sequelize.NUMBER,
+    allowNull: false,
+  },
+  item: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  edit: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+  },
+  done: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+});
+
+users
+  .sync()
+  .then(() =>
+    console.log(
+      "user table has been suuccessfully created, if one doesn't exist"
+    )
+  )
+  .catch((error) => console.log(error));
+
+lists
+  .sync()
+  .then(() =>
+    console.log(
+      "list table has been successfully created, if one doesn't exist"
+    )
+  )
+  .catch((error) => console.log(error));
 
 module.exports = {
-  lists: lists,
-  users: users
+  Users: users,
+  Lists: lists,
 };
