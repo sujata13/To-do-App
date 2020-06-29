@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>ToDo</title>
+
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="png" href="favicon.png" />
+
+    <link href="todo.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="grid-container grid-head">
+      <div class="grid-item alert alert-warning">
+        <h1>To-Do List</h1>
+      </div>
+    </div>
+
+
+      <div class="grid-container">
+        <div class="grid-item grid-search">
+          <form class="" method="POST" action="/">
+          <label for="item" class="sr-only">Item</label>
+          <input
+            type="text"
+            id="item"
+            name="item"
+            class="form-control"
+            placeholder="Add a todo"
+            required
+            autofocus
+          />
+        </div>
+        <div class="grid-item grid-postbutton">
+          <button class="btn btn-dark" type="submit">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        </form>
+        <div class="grid-item grid-signoutbutton">
+        <form class="" method="POST" action="/signout">
+        
+          <button class="btn btn-dark" type="submit">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </form>
+        </div>
+
+      </div>
+
+    <hr />
+
+    <% for (var i = todos.length-1 ; i>=0; i--){%>
+    <div class="grid-container">
+      <div class="grid-item grid-todo <%=todos[i].done%>">
+        <%=todos[i].item%>
+      </div>
+      <div class="grid-item grid-editbutton">
+        <form class="" method="POST" action="/editbar">
+          <button
+            class="btn btn-edit"
+            type="submit"
+            name="id"
+            value="<%=todos[i].id%>"
+          >
+            <i class="far fa-edit"></i>
+          </button>
+        </form>
+      </div>
+      <div class="grid-item grid-delbutton">
+        <form class="" method="POST" action="/add">
+          <button
+            class="btn btn-del"
+            type="submit"
+            name="id"
+            value="<%=todos[i].id%>"
+          >
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </form>
+      </div>
+      <div class="grid-item grid-donebutton">
+        <form class="" method="POST" action="/done">
+          <button
+            class="btn btn-done"
+            type="submit"
+            name="id"
+            value="<%=todos[i].id%>"
+          >
+            <i class="far fa-check-circle"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+    <% if(todos[i].edit){%>
+    <form class="" action="/editdata" method="POST">
+      <div class="grid-container">
+        <div class="grid-item grid-search">
+          <label for="item" class="sr-only">Item</label>
+          <input
+            type="text"
+            id="item"
+            name="item"
+            class="form-control form-control-lg"
+            value="<%=todos[i].item%>"
+            required
+            autofocus
+          />
+        </div>
+        <div class="grid-item grid-postbutton">
+          <button
+            class="btn btn-dark"
+            type="submit"
+            name="id"
+            value="<%=todos[i].id%>"
+          >
+            <i class="far fa-thumbs-up"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <%}%>
+    <hr />
+    <%}%>
+
+    <footer>
+      <p>A Minimalistic To-Do List App</p>
+      <a href="https://sujata13.github.io">About Developer</a>
+      <a href="/">Back to Top</a>
+    </footer>
+    
+  </body>
+</html>
