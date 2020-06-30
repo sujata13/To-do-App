@@ -13,7 +13,7 @@ describe("Functional Test: #start_test", function() {
       .then(function(err, res) {
         request(app)
           .post("/add")
-          .send({ item: "My first item" })
+          .send({ item: "First to-do" })
           .set("Accept", "application/json")
           .end(function(err, res) {
             assert.equal(res.status, 302);
