@@ -20,12 +20,13 @@ const addtodo = (req, res) => {
   const { item } = req.body;
   const email = req.session.user.email;
   lists
-    .create({ item, email })
+    .create({ item, email, edit: false, done:"Yes" })
     .then(result => {
       console.log(result + " added");
       return res.redirect("/");
     })
     .catch(err => {
+      console.log("task not added");
       console.log(err);
     });
 };

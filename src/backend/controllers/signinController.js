@@ -28,6 +28,7 @@ const signinuser = (req, res) => {
           })
           .then(result => {
             req.session.user = { email, name: r.name };
+            console.log("User signed in with the below info");
             console.log(result);
             return res.redirect("/");
           })
